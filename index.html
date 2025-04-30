@@ -30,14 +30,49 @@
     <footer>
       <div class="theme-toggle">
         <label class="switch">
-          <input type="checkbox" id="themeSwitch" onchange="toggleTheme()">
-          <span class="slider round"></span>
+          <input type="checkbox" id="theme-checkbox">
+          <span class="slider"></span>
         </label>
-        <span id="themeText">Light Mode</span>
+        <span id="theme-toggle">Light/Dark Mode</span>
       </div>
     </footer>
-  </div>
+    
 
   <script src="script.js"></script>
+   <script>
+  // Theme Toggle
+  const toggle = document.getElementById("theme-toggle");
+  const themeCheckbox = document.getElementById("theme-checkbox");
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    themeCheckbox.checked = theme === "dark";
+  }
+
+  themeCheckbox.addEventListener("change", () => {
+    setTheme(themeCheckbox.checked ? "dark" : "light");
+  });
+
+  // Load saved theme on page load
+  const savedTheme = localStorage.getItem("theme") || "light";
+  setTheme(savedTheme);
+
+  // Copy Button
+  const copyBtn = document.getElementById("copy-btn");
+  const resultBox = document.getElementById("result");
+
+  if (copyBtn && resultBox) {
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(resultBox.innerText).then(() => {
+        copyBtn.innerText = "Copied!";
+        setTimeout(() => {
+          copyBtn.innerText = "Copy Output";
+        }, 1500);
+      });
+    });
+  }
+</script>
+
 </body>
 </html>
